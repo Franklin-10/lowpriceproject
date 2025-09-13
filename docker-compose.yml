@@ -1,6 +1,6 @@
 services:
   djangoapp:
-    container_name: djangoapp
+    container_name: djangoapp_lowprice
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -15,7 +15,7 @@ services:
     depends_on:
       - psql
   psql:
-    container_name: psql
+    container_name: psql_lowprice
     image: postgres:17-alpine
     volumes:
       - ./data/postgres/data:/var/lib/postgresql/data/
