@@ -131,3 +131,15 @@ MEDIA_ROOT = DATA_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Endereço do nosso "quadro de comandas" (o Broker Redis)
+# 'redis' é o nome do serviço no docker-compose.yml
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+# Endereço de onde o Celery vai guardar os resultados das tarefas
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+
+# Configurações para garantir que o Celery use um formato de dados seguro (JSON)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

@@ -14,6 +14,10 @@ services:
       - ./dotenv_files/.env
     depends_on:
       - psql
+      - redis
+    # Diz ao entrypoint para executar o bloco "web"
+    command: ['web']
+
   psql:
     container_name: psql_lowprice
     image: postgres:17-alpine
@@ -21,3 +25,24 @@ services:
       - ./data/postgres/data:/var/lib/postgresql/data/
     env_file:
       - ./dotenv_files/.env
+    ports:
+      - '5433:5432'
+
+  redis:
+    container_name: redis_lowprice
+    image: 'redis:7-alpine'
+
+  celery_worker:
+    container_name: worker_lowprice
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./djangoapp:/djangoapp
+    env_file:
+      - ./dotenv_files/.env
+    depends_on:
+      - djangoapp
+      - redis
+    # Diz ao entrypoint para executar o bloco "worker"
+    command: ['worker']

@@ -2,5 +2,21 @@
 
 {% block content %}
   <h1>Olá Mundo</h1>
+  <form action="{% url 'lowprice:search' %}" method="get">
+    <div class='search-div center'>
+    <h1>DIGITE SEU PRODUTO</h1>
+    <input type="text"
+      required
+      id='search-input'
+      name='search'
+      type='search'
+      class='search-input'
+      placeholder='Digite seu produto'
+    >
+    <button class='search-button' type='submit'>PESQUISAR</button>
+  </div>
+
+  </form>
+  {% include "lowprice/partials/_product.html" %}
   <h1>Deus abençoe</h1>
 {% endblock content %}

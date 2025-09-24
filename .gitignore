@@ -6,6 +6,19 @@
 /data/
 *local_settings.py
 
+# Scrapy output files
+*.json
+*.jl
+*.csv
+*.xml
+
+# Scrapy logs
+scrapy_log.txt
+*.log
+
+# Scrapy cache
+.httpcache/
+
 # Django #
 *.log
 *.pot
