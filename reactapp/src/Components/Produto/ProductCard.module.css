@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&family=Darumadrop+One&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.productCard{
+  background-color: white;
+  width: 70vw;
+  padding: 20px 0 ;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+}
+.productDetails{
+  flex-grow: 2;
+}
+h3{
+    font-size: 2vw;
+}
+
+.priceTag{
+  font-size: 3vw;
+  color: black;
+  transition: color 0.5s ease;
+  font-family: 'Lato', 'Roboto', sans-serif;
+  font-weight: 600;
+  margin: 0 auto;
+  width: max-content;
+}
+.priceTag:hover{
+  color:limegreen;
+}
+
+@media (max-width:800px) {
+  .productCard{
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+  }
+  .productDetails > h3 >  a{
+    font-size: 1rem;
+  }
+  .priceTag{
+    font-size: 3vh;
+  }
+  /* .productImage{
+    height: 30vh;
+    width: 30vw;
+  } */
+}

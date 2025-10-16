@@ -13,8 +13,11 @@ services:
     env_file:
       - ./dotenv_files/.env
     depends_on:
-      - psql
-      - redis
+      psql:
+        condition: service_healthy
+        restart: true
+      redis:
+        condition: service_started
     # Diz ao entrypoint para executar o bloco "web"
     command: ['web']
 
@@ -27,6 +30,11 @@ services:
       - ./dotenv_files/.env
     ports:
       - '5433:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lowprice -d lowprice_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     container_name: redis_lowprice
@@ -46,3 +54,14 @@ services:
       - redis
     # Diz ao entrypoint para executar o bloco "worker"
     command: ['worker']
+  reactapp:
+      container_name: reactapp_lowprice
+      build:
+        context: ./reactapp # Aponta para a pasta com o Dockerfile do React
+      ports:
+        - "3000:3000" # Mapeia a porta 3000 do contêiner para a 3000 do seu PC
+      volumes:
+        - ./reactapp:/app
+        - /app/node_modules # Espelha o código para vermos as alterações ao vivo
+      depends_on:
+        - djangoapp

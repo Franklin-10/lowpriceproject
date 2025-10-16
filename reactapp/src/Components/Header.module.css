@@ -1,0 +1,14 @@
+.logo{
+  letter-spacing: 2px;
+  transition: color 0.5s ease;
+  width: max-content;
+}
+.logo:hover{
+  color: greenyellow;
+}
+
+@media(max-width: 800px){
+  .logo{
+    margin: 0 auto;
+  }
+}

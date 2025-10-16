@@ -20,16 +20,27 @@ class HistoryProduct(models.Model):
     price = models.FloatField(max_length=5)
     registration_date = models.DateTimeField(default=timezone.now)
     seller = models.CharField(max_length=50)
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=False, null=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, related_name='history',blank=False, null=True)
 
 
 class Search(models.Model):
+    STATUS_CHOICES = [
+    ('PENDING', 'Pendente'),
+    ('PROCESSING', 'Processando'),
+    ('COMPLETED', 'Completo'),
+    ('FAILED', 'Falhou'),
+]
     search_term = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
     products = models.ManyToManyField(Product)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+
     
     def __str__(self):
         return f"Busca por '{self.search_term}' em {self.timestamp.strftime('%d/%m/%Y %H:%M')}"
 
-
+class SearchSiteStatus(models.Model):
+    search = models.ForeignKey(Search, related_name='site_status', on_delete=models.CASCADE)
+    site = models.CharField(max_length=50)
+    status = models.CharField(max_length=20, default="PENDING")
 # Create your models here.

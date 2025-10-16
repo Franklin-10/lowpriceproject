@@ -1,39 +1,60 @@
-from celery import shared_task
+from celery import shared_task, group
 import subprocess
 import os
+from lowprice.models import Search, SearchSiteStatus
+import time
+
 
 @shared_task
-def run_scrapy_spider(search_term, search_id):
+def start_all_requests(search_term, search_id):
+    spider_list = ['ecommerceA','ecommerceB']
+    for site in spider_list:
+        SearchSiteStatus.objects.create(search_id=search_id, site=site, status="PROCESSING")
+
+    print(f"TASK MANAGER: Disparando {len(spider_list)} spiders para a busca ID {search_id}", flush=True)
+
+    job = group(
+        run_scrapy_spider.s(search_term, search_id, site) for site in spider_list
+    )
+
+    job.apply_async()
+
+    return f"Grupo de {len(spider_list)} spiders iniciado."
+
+@shared_task
+def run_scrapy_spider(search_term, search_id, site):
+    start_time = time.time()
+
     """
-    Uma tarefa do Celery para iniciar um spider do Scrapy, garantindo o ambiente correto
-    e salvando a saída em um arquivo JSON para validação.
+    Uma tarefa do Celery para iniciar um spider do Scrapy, atualizando o status da busca.
     """
-    print(f"TASK: Iniciando spider para o termo: {search_term}", flush=True)
+    print(f"TASK: Iniciando spider para o termo: {search_term} (Busca ID: {search_id})", flush=True)
+
+    try:
+        search_instance = Search.objects.get(id=search_id)
+        search_instance.status = 'PROCESSING'
+        search_instance.save()
+    except Search.DoesNotExist:
+        print(f"TASK: ERRO - Busca com ID {search_id} não encontrada no banco de dados.")
+        return f"Falha, busca com ID {search_id} não encontrada."
     
-    # Caminho para a raiz do projeto Django dentro do contêiner
     django_root_path = '/djangoapp'
-    # Caminho para a pasta onde o comando 'scrapy crawl' será executado
     scrapy_project_path = os.path.join(django_root_path, 'utils', 'scrapy', 'tutorial')
-    
-    # Define um nome de arquivo único para cada busca
     output_file = f'output_{search_term.replace(" ", "_")}.json'
-    
-    # --- Configuração do Ambiente ---
     env = os.environ.copy()
     env['PYTHONPATH'] = f"{django_root_path}:{scrapy_project_path}:{env.get('PYTHONPATH', '')}"
     env['SCRAPY_SETTINGS_MODULE'] = 'tutorial.settings'
+
+    spider_name = site
     
-    spider_name = 'kabum'
-    
-    # --- Comando para o Scrapy com o output em arquivo ---
     command = [
         'scrapy', 'crawl', spider_name,
+        '-s', f'DNSCACHE_ENABLED=True',
         '-a', f'search_term={search_term}',
         '-a', f'search_id={search_id}',
-        '-o', output_file, # A flag que salva o arquivo
+        '-o', output_file,
     ]
     
-    # Executa o comando com o ambiente corrigido
     process = subprocess.run(
         command, 
         cwd=scrapy_project_path, 
@@ -42,7 +63,8 @@ def run_scrapy_spider(search_term, search_id):
         env=env
     )
     
-    # Imprime os logs para depuração
+    elapsed = time.time() - start_time
+    print(f"Tempo de execução: {elapsed}")
     print(f"TASK: Spider finalizado. Código de saída: {process.returncode}", flush=True)
     if process.stdout:
         print("--- Saída Padrão (STDOUT) do Scrapy ---", flush=True)
@@ -52,6 +74,17 @@ def run_scrapy_spider(search_term, search_id):
         print(process.stderr, flush=True)
 
     if process.returncode == 0:
+        print("TASK: Spider terminou com sucesso. Atualizando status para COMPLETED.", flush=True)
+        status_obj = SearchSiteStatus.objects.get(search_id=search_id, site=site)
+        if status_obj:
+            status_obj.status = "COMPLETED"
+            status_obj.save()
+        else:
+            status_obj.status = "FAILED"
+            status_obj.save()
         return f"Sucesso. Resultados salvos em {output_file}"
     else:
+        print("TASK: Spider terminou com erro. Atualizando status para FAILED.", flush=True)
+        search_instance.status = 'FAILED'
+        search_instance.save()
         return "Falha na execução do spider."

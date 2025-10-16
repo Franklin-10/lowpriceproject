@@ -1,0 +1,29 @@
+# Estágio de build
+FROM node:20-slim as build
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia os arquivos de dependências
+COPY package*.json ./
+
+# Instala as dependências
+RUN npm install
+
+# Copia o código fonte
+COPY . .
+
+# Executa o build
+RUN npm run build
+
+# Estágio de produção
+FROM nginx:alpine
+
+# Copia os arquivos buildados do estágio anterior
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expõe a porta 80
+EXPOSE 80
+
+# Nginx roda automaticamente por padrão
+CMD ["nginx", "-g", "daemon off;"]

@@ -45,6 +45,8 @@ RUN useradd --system --create-home duser && \
 
 USER root
 
+#React
+
 # Define o nosso novo script como o ponto de entrada
 ENTRYPOINT ["/scripts/commands.sh"]
 

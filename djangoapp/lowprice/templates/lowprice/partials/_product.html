@@ -1,9 +1,0 @@
- {% if products %}
-    <div class="success-message">
-        <h2>✅ Sua busca por "{{ search_term }}" foi iniciada!</h2>
-        <p>O processo está rodando em segundo plano. Os resultados serão salvos em breve.</p>
-    </div>
-    {% for product in products %}
-      <h1>{{product.title}}</h1>
-    {% endfor %}
-  {% endif %}

@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&family=Darumadrop+One&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5rem;
+  text-align: center;
+}
+.card {
+  padding: 2em;
+}
+
+
+input{
+  padding: 30px;
+  width: 40vw;
+  border-radius: 20px;
+  font-size: 2rem;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+#results-container{
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  margin-top: 20px;
+  width: 90vw;
+}
+
+.minPrice {
+  background-color: brown;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 2rem ;
+  margin-top: 1rem;
+  margin-bottom: 20px;
+  
+}
+.minPrice img{
+  width: 20vw;
+}
+.productsList{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  max-height: 600px;
+  overflow: auto;
+  scrollbar-width: thin;
+  width: 90vw;
+  margin: 1rem 0;
+  
+}
+.productsList::-webkit-scrollbar{
+  background: orange;
+}
+
+
+.productsListEcommerceA{
+  margin-top: 4rem;
+  background: #F17A28;
+  background: linear-gradient(90deg,rgba(241, 122, 40, 1) 23%, rgba(0, 77, 142, 1) 77%);
+}
+
+.productsListEcommerceA img{
+  width: 50vw;
+}
+.productsListEcommerceB{
+  background: #FFE600;
+  background: linear-gradient(139deg,rgba(255, 230, 0, 1) 27%, rgba(235, 235, 235, 1) 80%);
+}
+.productsListEcommerceB img{
+  width: 20vw;
+}
+
+.title{
+  font-size: 3vw;
+  font-family: 'BBH Sans Hegarty';
+
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.9em 1.5em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (max-width:800px) {
+  .productsListEcommerceA img{
+  width: 20vw;
+}
+  input{
+    width: 60vw;
+  }
+}

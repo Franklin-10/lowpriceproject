@@ -7,10 +7,14 @@
 *local_settings.py
 
 # Scrapy output files
-*.json
+
 *.jl
 *.csv
 *.xml
+*.zip
+*.png
+*.jpg
+*.jpeg
 
 # Scrapy logs
 scrapy_log.txt
@@ -155,3 +159,11 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

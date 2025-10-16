@@ -15,8 +15,6 @@ from pathlib import Path
 print("PIPELINE DEBUG: Lendo o settings.py do Scrapy...", flush=True)
 
 try:
-    # Ajuste os 'parents' conforme a sua estrutura de pastas real
-    # 5 'parents' para subir de .../tutorial/tutorial/settings.py até a pasta djangoapp
     django_project_path = Path(__file__).resolve().parent.parent.parent.parent.parent
     sys.path.append(str(django_project_path))
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
@@ -36,17 +34,21 @@ NEWSPIDER_MODULE = "tutorial.spiders"
 
 ADDONS = {}
 
+LOG_LEVEL = 'INFO'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "tutorial (+http://www.yourdomain.com)"
+
+
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
 # Concurrency and throttling settings
 #CONCURRENT_REQUESTS = 16
-CONCURRENT_REQUESTS_PER_DOMAIN = 1
-DOWNLOAD_DELAY = 1
+CONCURRENT_REQUESTS_PER_DOMAIN = 2
+DOWNLOAD_DELAY = 0
 
 # Disable cookies (enabled by default)
 #COOKIES_ENABLED = False
@@ -115,3 +117,14 @@ DOWNLOAD_HANDLERS = {
 }
 
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+
+PLAYWRIGHT_LAUNCH_OPTIONS = {
+    "args": [
+        "--disable-gpu",                     
+        "--no-sandbox",                       
+        "--disable-dev-shm-usage",            
+        "--disable-background-timer-throttling",
+    ],
+    # ---------------------------
+}
+PLAYWRIGHT_VIEWPORT = {"width": 1024, "height": 720}
