@@ -25,26 +25,6 @@ def search(request):
 
     return JsonResponse({'status': 'error', 'message': 'termo de busca vazio'}, status=400)
 
-# def results(request):
-#     latest_search =  None
-#     results_data = []
-#     try:
-#         latest_search = Search.objects.latest('timestamp')
-
-#         results_data = latest_search.products.all().order_by('-updated_date')
-#     except Search.DoesNotExist:
-#         pass
-
-    
-#     return render(
-#         request,
-#         'lowprice/pages/results.html',
-#         context= {
-#             'products': results_data,
-#             'search_object': latest_search,
-#         }
-#     )
-
 def results_api(request, search_id):
 
     try:
