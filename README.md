@@ -1,6 +1,16 @@
 # Projeto Low Price
 
-Uma aplicação web para comparação de preços entre diferentes plataformas de e-commerce, com rastreamento de preços em tempo real e análise histórica de preços.
+Uma aplicação web para comparação de preços entre diferentes plataformas de e-commerce, com rastreamento de preços em tempo real.
+
+
+**⚠️ Aviso Importante**
+
+> Este projeto foi desenvolvido para fins puramente educacionais e como uma demonstração de habilidades técnicas em web scraping e arquitetura de software.
+>
+> - **Uso Ético:** Nenhum código aqui contido tem a intenção de prejudicar ou sobrecarregar terceiros.
+> - **Privacidade:** Em conformidade com as melhores práticas e para evitar o uso indevido, os seletores CSS e configurações específicas de sites-alvo foram omitidos.
+> - **Adaptação:** Sinta-se à vontade para utilizar a arquitetura e os spiders como base para seus próprios estudos, aplicando-os a um site de sua escolha.
+>
 
 ## Visão Geral
 
@@ -50,6 +60,7 @@ Low Price é uma aplicação web full-stack que ajuda usuários a encontrar as m
 │   │   ├── Components/     # Componentes React
 │   │   ├── Hooks/         # Hooks customizados
 │   │   └── Helper/        # Componentes utilitários
+│   └── docker-compose.yml # Orquestração container react
 │   └── public/            # Arquivos estáticos
 │
 └── docker-compose.yml     # Orquestração de containers
@@ -70,7 +81,9 @@ Low Price é uma aplicação web full-stack que ajuda usuários a encontrar as m
    git clone https://github.com/Franklin-10/lowpriceproject.git
    cd lowpriceproject
    ```
-2. Altere os seletores dentro dos spiders ecommerceA.py e ecommerceB.py
+2. Adicione e configure seu .env conforme exemplo dentro de [dotenv_files](https://github.com/Franklin-10/lowpriceproject/tree/main/dotenv_files)
+3. Altere os seletores dentro dos spiders [ecommerceA.py](https://github.com/Franklin-10/lowpriceproject/blob/main/djangoapp/utils/scrapy/tutorial/tutorial/spiders/ecommerceA.py) e [ecommerceB](https://github.com/Franklin-10/lowpriceproject/blob/main/djangoapp/utils/scrapy/tutorial/tutorial/spiders/ecommerceB.py)
+   **ATENÇÃO** devido a políticas de privacidade, não estarei colocando os códigos aqui, mas você é livre pra procurar e achar um site que se encaixe.
 
    ```
        SITE_CONFIG = {
@@ -87,10 +100,10 @@ Low Price é uma aplicação web full-stack que ajuda usuários a encontrar as m
        }
 
    ```
-3. Inicie o ambiente de desenvolvimento:
+4. Inicie o ambiente de desenvolvimento:
 
-   `docker-compose up -d`
-4. Acesse as aplicações:
+   `docker-compose up --build`
+5. Acesse as aplicações:
 
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
