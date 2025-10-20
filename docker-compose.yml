@@ -35,6 +35,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 30s
 
   redis:
     container_name: redis_lowprice
@@ -52,16 +53,15 @@ services:
     depends_on:
       - djangoapp
       - redis
-    # Diz ao entrypoint para executar o bloco "worker"
     command: ['worker']
   reactapp:
       container_name: reactapp_lowprice
       build:
-        context: ./reactapp # Aponta para a pasta com o Dockerfile do React
+        context: ./reactapp 
       ports:
-        - "3000:3000" # Mapeia a porta 3000 do contêiner para a 3000 do seu PC
+        - "3000:3000" 
       volumes:
         - ./reactapp:/app
-        - /app/node_modules # Espelha o código para vermos as alterações ao vivo
+        - /app/node_modules 
       depends_on:
         - djangoapp
