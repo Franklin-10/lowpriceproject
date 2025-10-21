@@ -131,4 +131,4 @@ await page.context.tracing.stop(path=f"trace.zip")
 
 1. Quando você realizar a busca deixei o retorno no console.log do fetch do ***resultsData** * , possibilitando visualização dos retorno dos produto
 
-   ![Retorno console web](reactapp/src/assets/console_web.png)
+   ![Retorno console web](reactapp/public/assets/console_web.png)
