@@ -9,10 +9,11 @@ class ecommerceB(scrapy.Spider):
     }
     # SITE_CONFIG onde você pode facilmente colocar os seletores css do site a ser raspado.
     SITE_CONFIG = {
-        'base_url': "https://yoursite.com.br/search/", # URL de busca de produtos do seu site
+        'base_url': "https://yoursite.com.br/search/{}", # URL de busca de produtos do seu site
         'selectors': {
-            'container': 'Your selector CSS here', # Div que engloba todos os seletores filhos que deseja buscar
-            'title': "Your selector CSS here", #Selector CSS referente ao titulo/descrição do produto
+            # Os seletores que deseja buscar preencha ex: li.identificador
+            'container': 'Your selector CSS here',  # Div que engloba todos os seletores filhos que deseja buscar
+            'title': "Your selector CSS here::text", #Selector CSS referente ao titulo/descrição do produto
             'price': "Your selector CSS here::text", #Selector CSS referente ao preço do produto
             'img_data': 'Your selector CSS here::attr(data-src)', #Selector CSS referente ao img_data do produto
             'img_src': 'Your selector CSS here::attr(src)', #Selector CSS referente ao img_src do produto
@@ -60,7 +61,7 @@ class ecommerceB(scrapy.Spider):
         try:
             while page_count <= max_pages:
                 print(f"\n--- [PÁGINA {page_count}] INICIANDO COLETA ---", flush=True)
-                await page.wait_for_selector("li.ui-search-layout__item", state='visible')
+                await page.wait_for_selector(s['container'], state='visible')
 
                 html_content = await page.content()
                 selector = scrapy.Selector(text=html_content)
